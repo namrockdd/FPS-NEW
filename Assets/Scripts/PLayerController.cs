@@ -4,9 +4,12 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using UnityEngine.UI;
 
 public class PLayerController : MonoBehaviourPunCallbacks , IDamageable  
 {
+    [SerializeField] Image healthbarImage;
+    [SerializeField] GameObject ui;
     [SerializeField] GameObject carmeraHolder;
 
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeeed, jumpForce, smoothTime;
@@ -77,6 +80,7 @@ public class PLayerController : MonoBehaviourPunCallbacks , IDamageable
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             Destroy(rb);
+            Destroy(ui);
         }
     }
 
@@ -161,6 +165,7 @@ public class PLayerController : MonoBehaviourPunCallbacks , IDamageable
         if(!PV.IsMine) return;
 
         currentHealth -= damage;
+        healthbarImage.fillAmount = currentHealth / maxHealth;
 
         if(currentHealth <= 0)
         {
